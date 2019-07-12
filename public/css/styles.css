@@ -1,0 +1,51 @@
+body {
+    font-family: 'Quicksand', sans-serif;
+}
+
+.shadow-box {
+    box-shadow: 5px 5px 5px #EEE;
+}
+
+/*Pour cacher l'animation au chargement*/
+.cache-misere {
+    opacity: 0.0;
+    animation: cache-misere-fade-in 1s linear forwards;
+}
+@keyframes cache-misere-fade-in {
+    80% {opacity: 0.0}
+    100% {opacity: 1.0}
+}
+
+.aside-menu {
+    position: fixed;
+    top: -320px;
+    right: 0;
+
+    transition: 0.5s;
+    animation: aside-jump 0.5s ease forwards;
+}
+
+.aside-menu.active {
+    animation: aside-drop 0.5s ease forwards;
+}
+
+@keyframes aside-drop {
+    from {top:-320px}
+    50% {top: 30px}
+    to {top: 10px}
+}
+@keyframes aside-jump {
+    from {top: 10px}
+    50% {top: 30px}
+    to {top:-320px}
+}
+
+.aside-menu svg {
+    font-size: 50px;
+    position: absolute;
+    bottom: -55px;
+    right: 5px;
+
+    cursor: pointer;
+    overflow: visible;
+}

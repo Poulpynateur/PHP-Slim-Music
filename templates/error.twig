@@ -1,0 +1,14 @@
+{% extends "layout/main.twig" %}
+
+{% block body %}
+<div class="d-table mx-auto">
+    <div class="d-table-cell w-50 align-middle" style="height: 100vh;">
+        <div class="jumbotron text-center">
+            <h1 class="display-1">{{ error }}</h1>
+            <hr class="my-4">
+            <p class="lead">{{ message }}</p>
+            <a class="btn btn-primary btn-lg" href="{{ base_url() }}" role="button">Acceuil</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
