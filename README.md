@@ -18,4 +18,4 @@ Start the web server :
 php -S localhost:8888 -t public public/index.php
 ```
 
-Also require a */config/settings.php* (template can be find [there](https://github.com/slimphp/Slim-Skeleton/blob/master/src/settings.php))
+Also require a */config/settings.php* (template can be find [there](https://github.com/slimphp/Slim-Skeleton/blob/master/src/settings.php)).
