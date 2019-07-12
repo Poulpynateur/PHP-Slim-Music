@@ -12,6 +12,8 @@ Launch a composer update :
 composer update
 ```
 
+### Running the app
+
 Start the web server :
 
 ```
