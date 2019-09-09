@@ -1,51 +1,88 @@
-body {
-    font-family: 'Quicksand', sans-serif;
+#app {
+    min-height: 100vh;
+    padding: 50px 0;
 }
 
-.shadow-box {
-    box-shadow: 5px 5px 5px #EEE;
+.text-hight-contrast {
+    text-shadow: 0px 0px 3px black;
+    font-weight: bold;
 }
 
-/*Pour cacher l'animation au chargement*/
-.cache-misere {
-    opacity: 0.0;
-    animation: cache-misere-fade-in 1s linear forwards;
-}
-@keyframes cache-misere-fade-in {
-    80% {opacity: 0.0}
-    100% {opacity: 1.0}
+.flex-center {
+    display: flex;
+    align-items: center;
 }
 
-.aside-menu {
-    position: fixed;
-    top: -320px;
-    right: 0;
-
-    transition: 0.5s;
-    animation: aside-jump 0.5s ease forwards;
+.music-container .thumbnail {
+    width: 150px;
+    flex-shrink: 0;
 }
 
-.aside-menu.active {
-    animation: aside-drop 0.5s ease forwards;
+.music-container .text {
+    min-width: 0;
+}
+.music-container .text *{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-@keyframes aside-drop {
-    from {top:-320px}
-    50% {top: 30px}
-    to {top: 10px}
-}
-@keyframes aside-jump {
-    from {top: 10px}
-    50% {top: 30px}
-    to {top:-320px}
-}
+/* * */
 
-.aside-menu svg {
-    font-size: 50px;
+.last-added {
+    position: relative;
+    width: 100%;
+}
+.last-added .text {
     position: absolute;
-    bottom: -55px;
-    right: 5px;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+}
 
-    cursor: pointer;
-    overflow: visible;
+.homepage-button {
+    height:230px;
+    display: inline-grid;
+    align-items: center;
+}
+
+/* * */
+
+#side_nav {
+    position: fixed;
+    top: 75px;
+    left:0;
+}
+
+.side-bar-link .bar,.sub-side-bar-link .bar  {
+    height: 4px;
+    border-radius: 5px;
+    margin: 5px 0;
+    transition: 0.3s;
+    width: 5px;
+}
+.side-bar-link .bar {
+    background-color: #777;
+}
+.sub-side-bar-link .bar {
+    background-color: #555;
+}
+.side-bar-link.active .bar {
+    width: 15px;
+}
+.sub-side-bar-link.active .bar {
+    width: 10px;
+}
+
+/* * */
+.nav-menu {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.nav-button {
+    flex: 1 0 100%;
+}
+.nav-collapsable {
+    flex: 0 1 100%;
 }

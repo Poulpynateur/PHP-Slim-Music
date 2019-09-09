@@ -1,23 +1,14 @@
-# Slim application for music
+## Registering manually new users
 
-Small application to test Slim framework. Save, update and display music favorite on a web app. Based on [Slim PHP](http://www.slimframework.com/).
-
-![preview](preview.PNG)
-
-## Getting Started
-
-Launch a composer update :
+I think you want to do this once-off, so there is no need for something fancy like creating an Artisan command etc. I would suggest to simply use *php artisan tinker* (great tool!) and add the following commands per user:
 
 ```
-composer update
+$user = new App\Models\User();
+$user->password = Hash::make('admin');
+$user->username = 'admin';
+$token = Str::random(60);
+$user->api_token = hash('sha256', $token);
+
+$user->save();
+
 ```
-
-### Running the app
-
-Start the web server :
-
-```
-php -S localhost:8888 -t public public/index.php
-```
-
-Also require a */config/settings.php* (template can be find [there](https://github.com/slimphp/Slim-Skeleton/blob/master/src/settings.php)).
