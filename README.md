@@ -1,14 +1,5 @@
-## Registering manually new users
+## Laravel application for music
 
-I think you want to do this once-off, so there is no need for something fancy like creating an Artisan command etc. I would suggest to simply use *php artisan tinker* (great tool!) and add the following commands per user:
+Trying to make a small application with the Laravel framework, conclusion : better try Lumen for small apps.
 
-```
-$user = new App\Models\User();
-$user->password = Hash::make('admin');
-$user->username = 'admin';
-$token = Str::random(60);
-$user->api_token = hash('sha256', $token);
-
-$user->save();
-
-```
+![preview](preview.PNG)
