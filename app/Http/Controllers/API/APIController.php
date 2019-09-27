@@ -51,12 +51,12 @@ class APIController extends Controller
         
         $new_music = $request->validate([
             'uri' => 'required',
-            'category' => 'required',
-            'tags' => 'required'
+            'category' => 'required'
         ]);
 
         $youtube_data = $this->getInfoFromUri($new_music['uri']);
 
+        //Check for existing
         if(Music::where('title', $youtube_data['title'])->first())
             return [
                 'status' => 'warning',
@@ -69,7 +69,7 @@ class APIController extends Controller
             'duration' => $youtube_data['duration'],
             'uri' => $new_music['uri'],
             'category' => $new_music['category'],
-            'tag' => $new_music['tags']
+            'tags' => (array_key_exists('tags', $new_music))? $new_music['tags'] : null
         ]);
 
         return [

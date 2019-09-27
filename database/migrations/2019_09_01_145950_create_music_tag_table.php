@@ -19,8 +19,8 @@ class CreateMusicTagTable extends Migration
         });
 
         Schema::table('music_tag', function($table) {
-            $table->foreign('music_id')->references('id')->on('music')->onDelete('cascade');
-            $table->foreign('tag_id')->references('id')->on('tag')->onDelete('cascade');
+            $table->foreign('music_id')->references('id')->on('musics');
+            $table->foreign('tag_id')->references('id')->on('tags');
         });
     }
 

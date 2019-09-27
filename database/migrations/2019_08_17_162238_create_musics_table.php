@@ -14,7 +14,7 @@ class CreateMusicsTable extends Migration
     public function up()
     {
         Schema::create('musics', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('title');
             $table->string('uri');
             $table->time('duration');
@@ -26,8 +26,8 @@ class CreateMusicsTable extends Migration
         });
 
         Schema::table('musics', function($table) {
-            $table->foreign('channel_id')->references('id')->on('channels')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('channel_id')->references('id')->on('channels');
+            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 

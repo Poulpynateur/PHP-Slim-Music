@@ -20,10 +20,6 @@ trait DatabaseInteraction {
             ['name' => $music['channel']]
         );
 
-        $tag = Tag::firstOrCreate([
-            'name' => $music['tag']
-        ]);
-
         $new_music = Music::create([
             'title' => $music['title'],
             'uri' => $music['uri'],
@@ -32,6 +28,12 @@ trait DatabaseInteraction {
             'duration' => $music['duration']
         ]);
 
-        $new_music->tags()->attach($tag->id);
+        if($music['tags'] !== null) {
+            $tag = Tag::firstOrCreate([
+                'name' => $music['tag']
+            ]);
+    
+            $new_music->tags()->attach($tag->id);
+        }
     }
 }

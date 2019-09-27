@@ -13,31 +13,16 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $music = Music::orderBy('updated_at', 'desc')->first();
         return view('home', [
-            'last_added' => $music,
+            'last_added' => Music::orderBy('updated_at', 'desc')->first(),
             'musics' => Music::all()
         ]);
     }
 
     public function categoriesPage()
     {
-
-        $categories = [];
-
-        foreach(Category::all() as $category) {
-
-            $categories[$category->id] = [
-                'name' => $category->name,
-                'musics' => [
-                    'active' => $category->musics()->byTag('Active'),
-                    'passive' => $category->musics()->byTag('Passive')
-                ]
-            ];
-        }
-
         return view('categories', [
-            'categories' => $categories
+            'categories' => Category::all()
         ]);
     }
 
@@ -50,7 +35,12 @@ class HomeController extends Controller
     }
 
     public function deleteMusic($id) {
+        \App\Models\MusicTag::where('music_id', $id)->delete();
         Music::destroy($id);
-        return redirect('categories');
+        return redirect()->route('categories');
+    }
+
+    public function about() {
+        return view('about');
     }
 }

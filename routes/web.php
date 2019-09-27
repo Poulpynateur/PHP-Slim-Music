@@ -14,6 +14,7 @@
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/categories', 'HomeController@categoriesPage')->name('categories');
 Route::get('/channels', 'HomeController@channelsPage')->name('channels');
+Route::get('/about', 'HomeController@about')->name('about');
 
 Route::delete('/musics/{id}', 'HomeController@deleteMusic')->middleware('auth');
 

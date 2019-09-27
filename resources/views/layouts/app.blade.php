@@ -51,13 +51,13 @@
                 </div>
                 <div class="collapse float-right text-right" id="collapse_nav_more">
                     <nav class="nav flex-column">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="{{ route('about') }}">About</a>
 
                         @guest
                         <a class="nav-link" href="{{ route('login') }}">Login</a>
                         @endguest
                         @auth
-                        <a class="nav-link" href="{{ url("logout") }}">Logout</a>
+                        <a class="nav-link" href="{{ route("logout") }}">Logout</a>
                         @endauth
                         
                     </nav>

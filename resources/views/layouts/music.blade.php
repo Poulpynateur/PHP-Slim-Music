@@ -7,7 +7,7 @@
         <p class="text-secondary my-0 ">{{ $music->channel->name }}</p>
     </div>
 
-    <p class="text-light ml-auto my-0">{{ $music->duration }}</p>
+    <p class="text-light ml-auto my-0">{{ $music->beautifullDuration() }}</p>
 
     @auth
     <button type="button" class="btn btn-link position-absolute text-secondary delete-music" style="top:0;right:0" data-toggle="modal" data-target="#modal_edit_music" value="{{ $music->id }}">

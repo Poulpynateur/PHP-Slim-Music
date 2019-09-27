@@ -28,6 +28,10 @@ class Music extends Model
         return 'https://img.youtube.com/vi/'.$this->uri.'/1.jpg';
     }
 
+    public function beautifullDuration() {
+        return ltrim($this->duration, '00:');
+    }
+
     public function scopeByTag($query, $tag_name) {
         return $query->whereHas('tags', function ($q) use ($tag_name) {
             $q->where('name', $tag_name);

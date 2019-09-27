@@ -5,7 +5,7 @@ namespace App\Traits;
 trait YoutubeAPI {
 
     protected function getInfoFromUri($uri) {
-        $api_url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=' . $uri . '&key=' . env('YOUTUBE_API_KEY');
+        $api_url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=' . $uri . '&key=' . config('app.youtube_api_key');
         $response = json_decode(file_get_contents($api_url));
 
         if($response->items[0]) {

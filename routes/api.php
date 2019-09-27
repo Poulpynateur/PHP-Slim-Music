@@ -13,9 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->group(function () {
 
     Route::post('/musics', 'API\APIController@addMusic');
 
     Route::post('/channels', 'API\APIController@addFavoriteChannel');
-});
