@@ -20,4 +20,5 @@ Start the web server :
 php artisan serve
 ```
 
+
 Also require a *.env* file with a configured database.
