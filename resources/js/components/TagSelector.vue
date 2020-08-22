@@ -59,6 +59,9 @@
             </div>
           </div>
         </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" v-on:click="showTagModal = false">ok</button>
+        </div>
       </div>
     </div>
   </div>
@@ -70,11 +73,6 @@ export default {
   props: {
     tags: Array,
     selected: Array
-  },
-  created() {
-    if(this.selected && this.selected.length > 0) {
-      this.selectedTags = this.selected;
-    }
   },
   data: function () {
     return {
@@ -112,5 +110,12 @@ export default {
       });
     }
   },
+  watch: {
+    selected: function(val, oldVal) {
+      if(val) {
+        this.selectedTags = val;
+      }
+    }
+  }
 };
 </script>

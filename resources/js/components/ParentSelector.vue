@@ -3,8 +3,8 @@
     <div class="columns col-gapless">
       <div class="column">
         <div class="form-input">
-          <span v-if="!parent" class="placeholder">Parent ...</span>
-          <span v-if="parent">{{ parent.name }}</span>
+          <span v-if="!parent.name" class="placeholder">Parent ...</span>
+          <span v-else>{{ parent.name }}</span>
         </div>
       </div>
       <div class="col-auto">
@@ -43,18 +43,19 @@
 </template>
 
 <script>
-import NoteService from '../services/NoteService';
+import NoteService from "../services/NoteService";
+import Note from '../models/Note';
 export default {
   name: "ParentSelector",
   props: {
-    parentId: null
+    note: null,
   },
   data: function () {
     return {
       search: "",
       result: [],
       showSearchModal: false,
-      parent: null,
+      parent: new Note(),
     };
   },
   methods: {
@@ -65,18 +66,22 @@ export default {
     },
   },
   watch: {
-    search: function(val, oldVal) {
+    search: function (val, oldVal) {
       NoteService.search(val).then((result) => {
         this.result = result;
       });
     },
-    parentId: function(val, oldVal) {
-      if(val) {
-        NoteService.get(val).then((note) => {
-          this.parent = result;
-        });
+    note: function (val, oldVal) {
+      if (val) {
+        if (val.parentId) {
+          NoteService.get(val.parentId).then((parent) => {
+            this.parent = parent;
+          });
+        } else {
+          this.parent = new Note();
+        }
       }
-    }
-  }
+    },
+  },
 };
 </script>

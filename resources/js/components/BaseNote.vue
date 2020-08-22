@@ -46,6 +46,7 @@
   img {
     object-fit: cover;
     width: 100%;
+    height: 100%;
   }
 }
 .admin-btn {
@@ -60,7 +61,11 @@
     class="p-relative note-container"
   >
     <div class="square">
-      <a class="img-container c-pointer" v-on:click="clickNote()">
+      <a v-if="note.url" class="img-container c-pointer" v-bind:href="note.url">
+        <span v-if="!note.thumbnailUrl || note.hasChildren" class="text-bold">{{note.name}}</span>
+        <img v-else class="img-responsive" :src="note.thumbnailUrl" />
+      </a>
+      <a v-else class="img-container c-pointer" v-on:click="clickNote()">
         <span v-if="!note.thumbnailUrl || note.hasChildren" class="text-bold">{{note.name}}</span>
         <img v-else class="img-responsive" :src="note.thumbnailUrl" />
       </a>
@@ -100,8 +105,6 @@ export default {
       }
       else if (this.note.hasChildren) {
         this.$emit('note-get-childrens', this.note.id);
-      } else if (this.note.url) {
-        window.location = this.note.url;
       }
       return false;
     }

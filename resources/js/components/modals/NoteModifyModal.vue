@@ -68,9 +68,7 @@
                 <label class="form-label">Parent</label>
               </div>
               <div class="col-10 col-sm-12">
-                <parent-selector
-                  :parentId="parendId"
-                  v-on:selected-parent-update="note.parentId = $event"
+                <parent-selector :note="note" v-on:selected-parent-update="note.parentId = $event"
                 ></parent-selector>
               </div>
             </div>
@@ -101,9 +99,7 @@ export default {
       isActive: false,
       isUpdate: false,
 
-      note: new Note(),
-      // Need to put it out since watch doesn't work on deep props
-      parendId: null,
+      note: new Note()
     };
   },
   components: {
@@ -113,7 +109,8 @@ export default {
   methods: {
     resetNote() {
       this.note = new Note();
-      this.parendId = this.note.parentId;
+      if (this.isUpdate)
+        this.close();
     },
     close() {
       this.isActive = false;
@@ -122,7 +119,6 @@ export default {
       this.isUpdate = !!note;
       if (this.isUpdate) {
         this.note = note;
-        this.parendId = this.note.parentId;
       } else {
         this.resetNote();
       }

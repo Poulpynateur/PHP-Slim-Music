@@ -3160,6 +3160,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3176,8 +3181,6 @@ __webpack_require__.r(__webpack_exports__);
         this.$emit('note-display-content', this.note);
       } else if (this.note.hasChildren) {
         this.$emit('note-get-childrens', this.note.id);
-      } else if (this.note.url) {
-        window.location = this.note.url;
       }
 
       return false;
@@ -3197,6 +3200,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_NoteService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/NoteService */ "./resources/js/services/NoteService.js");
+/* harmony import */ var _models_Note__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../models/Note */ "./resources/js/models/Note.js");
 //
 //
 //
@@ -3242,17 +3246,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ParentSelector",
   props: {
-    parentId: null
+    note: null
   },
   data: function data() {
     return {
       search: "",
       result: [],
       showSearchModal: false,
-      parent: null
+      parent: new _models_Note__WEBPACK_IMPORTED_MODULE_1__["default"]()
     };
   },
   methods: {
@@ -3270,13 +3275,17 @@ __webpack_require__.r(__webpack_exports__);
         _this.result = result;
       });
     },
-    parentId: function parentId(val, oldVal) {
+    note: function note(val, oldVal) {
       var _this2 = this;
 
       if (val) {
-        _services_NoteService__WEBPACK_IMPORTED_MODULE_0__["default"].get(val).then(function (note) {
-          _this2.parent = result;
-        });
+        if (val.parentId) {
+          _services_NoteService__WEBPACK_IMPORTED_MODULE_0__["default"].get(val.parentId).then(function (parent) {
+            _this2.parent = parent;
+          });
+        } else {
+          this.parent = new _models_Note__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        }
       }
     }
   }
@@ -3359,16 +3368,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "TagSelector",
   props: {
     tags: Array,
     selected: Array
-  },
-  created: function created() {
-    if (this.selected && this.selected.length > 0) {
-      this.selectedTags = this.selected;
-    }
   },
   data: function data() {
     return {
@@ -3409,6 +3416,13 @@ __webpack_require__.r(__webpack_exports__);
       return this.tags.filter(function (tag) {
         return tag.name.toLowerCase().includes(_this.search.toLowerCase());
       });
+    }
+  },
+  watch: {
+    selected: function selected(val, oldVal) {
+      if (val) {
+        this.selectedTags = val;
+      }
     }
   }
 });
@@ -3779,8 +3793,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 
@@ -3793,9 +3805,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       isActive: false,
       isUpdate: false,
-      note: new _models_Note__WEBPACK_IMPORTED_MODULE_2__["default"](),
-      // Need to put it out since watch doesn't work on deep props
-      parendId: null
+      note: new _models_Note__WEBPACK_IMPORTED_MODULE_2__["default"]()
     };
   },
   components: {
@@ -3805,7 +3815,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     resetNote: function resetNote() {
       this.note = new _models_Note__WEBPACK_IMPORTED_MODULE_2__["default"]();
-      this.parendId = this.note.parentId;
+      if (this.isUpdate) this.close();
     },
     close: function close() {
       this.isActive = false;
@@ -3815,7 +3825,6 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.isUpdate) {
         this.note = note;
-        this.parendId = this.note.parentId;
       } else {
         this.resetNote();
       }
@@ -4108,7 +4117,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".square {\n  position: relative;\n  padding-top: 100%;\n}\n.square .img-container {\n  overflow: hidden;\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n}\n.list {\n  display: flex;\n  align-items: center;\n  border-top-width: 0;\n  border-right-width: 0;\n  border-left-width: 0;\n}\n.list .square {\n  padding-top: 100px;\n  width: 100px;\n  margin-right: 0.5rem;\n}\n.note-container {\n  margin: 1px;\n  border: 1px solid #f7f8f9;\n}\n.note-container.has-children {\n  background-color: #f7f8f9;\n}\n.img-container {\n  display: flex;\n  width: 100%;\n  align-items: center;\n  justify-content: center;\n  text-align: center;\n  border-radius: 0.1rem;\n}\n.img-container img {\n  -o-object-fit: cover;\n     object-fit: cover;\n  width: 100%;\n}\n.admin-btn {\n  position: absolute;\n  right: 0.5rem;\n}", ""]);
+exports.push([module.i, ".square {\n  position: relative;\n  padding-top: 100%;\n}\n.square .img-container {\n  overflow: hidden;\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n}\n.list {\n  display: flex;\n  align-items: center;\n  border-top-width: 0;\n  border-right-width: 0;\n  border-left-width: 0;\n}\n.list .square {\n  padding-top: 100px;\n  width: 100px;\n  margin-right: 0.5rem;\n}\n.note-container {\n  margin: 1px;\n  border: 1px solid #f7f8f9;\n}\n.note-container.has-children {\n  background-color: #f7f8f9;\n}\n.img-container {\n  display: flex;\n  width: 100%;\n  align-items: center;\n  justify-content: center;\n  text-align: center;\n  border-radius: 0.1rem;\n}\n.img-container img {\n  -o-object-fit: cover;\n     object-fit: cover;\n  width: 100%;\n  height: 100%;\n}\n.admin-btn {\n  position: absolute;\n  right: 0.5rem;\n}", ""]);
 
 // exports
 
@@ -27709,27 +27718,45 @@ var render = function() {
     },
     [
       _c("div", { staticClass: "square" }, [
-        _c(
-          "a",
-          {
-            staticClass: "img-container c-pointer",
-            on: {
-              click: function($event) {
-                return _vm.clickNote()
-              }
-            }
-          },
-          [
-            !_vm.note.thumbnailUrl || _vm.note.hasChildren
-              ? _c("span", { staticClass: "text-bold" }, [
-                  _vm._v(_vm._s(_vm.note.name))
-                ])
-              : _c("img", {
-                  staticClass: "img-responsive",
-                  attrs: { src: _vm.note.thumbnailUrl }
-                })
-          ]
-        )
+        _vm.note.url
+          ? _c(
+              "a",
+              {
+                staticClass: "img-container c-pointer",
+                attrs: { href: _vm.note.url }
+              },
+              [
+                !_vm.note.thumbnailUrl || _vm.note.hasChildren
+                  ? _c("span", { staticClass: "text-bold" }, [
+                      _vm._v(_vm._s(_vm.note.name))
+                    ])
+                  : _c("img", {
+                      staticClass: "img-responsive",
+                      attrs: { src: _vm.note.thumbnailUrl }
+                    })
+              ]
+            )
+          : _c(
+              "a",
+              {
+                staticClass: "img-container c-pointer",
+                on: {
+                  click: function($event) {
+                    return _vm.clickNote()
+                  }
+                }
+              },
+              [
+                !_vm.note.thumbnailUrl || _vm.note.hasChildren
+                  ? _c("span", { staticClass: "text-bold" }, [
+                      _vm._v(_vm._s(_vm.note.name))
+                    ])
+                  : _c("img", {
+                      staticClass: "img-responsive",
+                      attrs: { src: _vm.note.thumbnailUrl }
+                    })
+              ]
+            )
       ]),
       _vm._v(" "),
       _vm.display == "list" && !_vm.note.hasChildren
@@ -27808,11 +27835,9 @@ var render = function() {
     _c("div", { staticClass: "columns col-gapless" }, [
       _c("div", { staticClass: "column" }, [
         _c("div", { staticClass: "form-input" }, [
-          !_vm.parent
+          !_vm.parent.name
             ? _c("span", { staticClass: "placeholder" }, [_vm._v("Parent ...")])
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.parent ? _c("span", [_vm._v(_vm._s(_vm.parent.name))]) : _vm._e()
+            : _c("span", [_vm._v(_vm._s(_vm.parent.name))])
         ])
       ]),
       _vm._v(" "),
@@ -28105,6 +28130,21 @@ var render = function() {
                 0
               )
             ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-footer" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                on: {
+                  click: function($event) {
+                    _vm.showTagModal = false
+                  }
+                }
+              },
+              [_vm._v("ok")]
+            )
           ])
         ])
       ]
@@ -28719,7 +28759,7 @@ var render = function() {
                   { staticClass: "col-10 col-sm-12" },
                   [
                     _c("parent-selector", {
-                      attrs: { parentId: _vm.parendId },
+                      attrs: { note: _vm.note },
                       on: {
                         "selected-parent-update": function($event) {
                           _vm.note.parentId = $event
@@ -46417,7 +46457,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   get: function get(id) {
-    axios.get("/notes/" + id).then(function (response) {
+    return axios.get("/notes/" + id).then(function (response) {
       return response.data;
     });
   },

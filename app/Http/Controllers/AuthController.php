@@ -18,24 +18,26 @@ class AuthController extends Controller
         if ($v->fails())
         {
             return response()->json([
-                'msg' => $v->errors()
+                'message' => $v->errors()
             ], 422);
         }
 
         $credentials = $request->only('username', 'password');
 
         if ($token = $this->guard()->attempt($credentials)) {
-            return response()->json(['msg' => 'Success.'], 200)->header('Authorization', $token);
+            return response()->json(['message' => 'Success.'], 200)
+            ->header('Authorization', $token)
+            ->header('Access-Control-Expose-Headers', 'Authorization');
         }
 
-        return response()->json(['msg' => 'Login error.'], 401);
+        return response()->json(['message' => 'Login error.'], 401);
     }
 
     public function logout() {
         $this->guard()->logout();
 
         return response()->json([
-            'msg' => 'Logged out Successfully.'
+            'message' => 'Logged out Successfully.'
         ], 200);
     }
 
@@ -48,11 +50,11 @@ class AuthController extends Controller
     public function refresh() {
         if ($token = $this->guard()->refresh()) {
             return response()
-                ->json(['msg' => 'Successs.'], 200)
+                ->json(['message' => 'Successs.'], 200)
                 ->header('Authorization', $token);
         }
 
-        return response()->json(['msg' => 'Refresh token error.'], 401);
+        return response()->json(['message' => 'Refresh token error.'], 401);
     }
 
     private function guard() {

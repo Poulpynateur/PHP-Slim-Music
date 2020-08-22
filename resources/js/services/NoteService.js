@@ -2,7 +2,7 @@ import Note from '../models/Note';
 
 export default {
     get(id) {
-        axios.get("/notes/" + id).then((response) => {
+        return axios.get("/notes/" + id).then((response) => {
             return response.data;
         });
     },

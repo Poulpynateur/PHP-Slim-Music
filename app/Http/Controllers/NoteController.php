@@ -30,11 +30,15 @@ class NoteController extends Controller {
             $element->content = $request->input('content');
         }
         if ($request->has('parentId') && !empty($request->input('parentId'))) {
-            if ($element->exists && Note::where('parent_id', $element->parent_id)->count() < 2) {
-                $element->parent()->has_children = false;
-            }
             $parent = Note::find($request->input('parentId'));
             $parent ->has_children = true;
+            $parent->save();
+
+            $element->parent_id = $parent->id;
+        }
+        else if ($request->has('parentName') && !empty($request->input('parentName'))) {
+            $parent = Note::where('name', $request->input('parentName'))->first();
+            $parent->has_children = true;
             $parent->save();
 
             $element->parent_id = $parent->id;
@@ -57,11 +61,7 @@ class NoteController extends Controller {
             return response()->json(['message' => 'Name must be unique in folder.'], 422);
         }
 
-        try {
             $this->createUpdateNote($request, $element);
-        } catch (Exception $e) {
-            return response()->json(['message' => 'Error with database.'], 500);
-        }
 
         return response()->json([
             'message' => 'Element added successfully.',
@@ -122,7 +122,12 @@ class NoteController extends Controller {
         return response()->json(Note::where('parent_id', NULL)->orderBy('updated_at', 'desc')->get(), 200);
     }
     public function getChildrens(Request $request, $id) {
-        return response()->json(Note::find($id)->children(), 200);
+        $parent = Note::find($id);
+        if (Note::where('parent_id', $parent->id)->count() == 0) {
+            $parent->has_children = false;
+            $parent->save();
+        }
+        return response()->json($parent->children, 200);
     }
 
     public function search(Request $request) {
