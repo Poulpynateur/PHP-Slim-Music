@@ -19,10 +19,12 @@ class CreateNotesTable extends Migration
             $table->string('thumbnail_url')->nullable();
             $table->string('url')->nullable();
             $table->text('content')->nullable();
-            $table->integer('parent_id')->unsigned()->nullable();
+            $table->bigInteger('parent_id')->unsigned()->nullable();
             $table->boolean('has_children')->default(false);
             $table->timestamps();
+        });
 
+        Schema::table('notes', function($table) {
             $table->foreign('parent_id')
             ->references('id')->on('notes')
             ->onDelete('cascade');
