@@ -23,8 +23,8 @@ export default {
   },
   methods: {
     updateFilterTags(tags) {
-      this.filterTags = tags;
-      this.filterNotes();
+      this.filterTagsId = tags.map((t) => t.id);
+      this.filter();
     },
     checkTags(tags) {
       for(var filterTagId of this.filterTagsId) {
@@ -33,14 +33,17 @@ export default {
       }
       return true;
     },
-    
-  },
-  watch: {
-    filterName() {
+    filter() {
       let filtered = this.notes.filter((note) => {
         return note.name.toLowerCase().includes(this.filterName.toLowerCase()) && this.checkTags(note.tags);
       });
       this.$emit('update-filtered-notes', filtered);
+    }
+    
+  },
+  watch: {
+    filterName() {
+      this.filter();
     }
   }
 };
